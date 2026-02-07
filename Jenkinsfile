@@ -1,21 +1,24 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.11-slim'
+        }
+    }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main',
-                    credentialsId: 'github-creds',
-                    url: 'https://github.com/sachinkumarhp230/devops-e2e-app.git'
+                checkout scm
             }
         }
 
         stage('Test') {
             steps {
                 sh '''
-                  python3 --version
-                  pip3 install -r requirements.txt
-                  pytest
+                    python --version
+                    pip install --upgrade pip
+                    pip install -r requirements.txt
+                    pytest
                 '''
             }
         }
