@@ -24,5 +24,13 @@ pipeline {
                 '''
             }
         }
+
+        stage('Build Image') {
+			steps {
+				sh '''
+					docker build -t devops-e2e-app:${BUILD_NUMBER} .
+				'''
+			}
+		}
     }
 }
