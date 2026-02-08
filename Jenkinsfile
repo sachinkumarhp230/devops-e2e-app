@@ -1,11 +1,8 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.11-slim'
-        }
-    }
+    agent any
 
     stages {
+
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -15,6 +12,11 @@ pipeline {
         }
 
         stage('Test') {
+            agent {
+                docker {
+                    image 'python:3.11-slim'
+                }
+            }
             steps {
                 sh '''
                     python -m venv venv
@@ -26,11 +28,11 @@ pipeline {
         }
 
         stage('Build Image') {
-			steps {
-				sh '''
-					docker build -t devops-e2e-app:${BUILD_NUMBER} .
-				'''
-			}
-		}
+            steps {
+                sh '''
+                    docker build -t devops-e2e-app:${BUILD_NUMBER} .
+                '''
+            }
+        }
     }
 }
