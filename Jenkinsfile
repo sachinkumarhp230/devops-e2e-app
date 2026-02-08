@@ -8,7 +8,9 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
+                git branch: 'main',
+                    credentialsId: 'github-creds',
+                    url: 'https://github.com/sachinkumarhp230/devops-e2e-app.git'
             }
         }
 
